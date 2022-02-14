@@ -1,11 +1,9 @@
 ---
 name: Snyk Monitor
 on:
-  schedule:
-    - cron: '0 5 * * 1-5'
   push:
     branches:
-      - main
+      - maint/main/FACT-3104_update_snyk_monitor
 jobs:
   snyk_monitor:
     if: ${{ github.repository_owner == 'puppetlabs' }}
@@ -23,7 +21,7 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/ruby@master
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.SNYK_FOSS_KEY }}
         with:
           command: monitor
           args: --org=puppet-foss --project-name=${{ github.repository }}
